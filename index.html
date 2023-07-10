@@ -1,0 +1,49 @@
+def create_html_file():
+    html_template = '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>여행 기록</title>
+    </head>
+    <body>
+        <h1>여행 기록</h1>
+        {content}
+    </body>
+    </html>
+    '''
+
+    return html_template
+
+def add_record_to_html(html_template, date, location, food):
+    record_template = '''
+    <h3>{date}</h3>
+    <p>장소: {location}</p>
+    <p>음식: {food}</p>
+    <hr>
+    '''
+
+    record = record_template.format(date=date, location=location, food=food)
+    return html_template.replace('{content}', record + '{content}')
+
+def save_html(html_content, filename):
+    with open(filename, 'w') as file:
+        file.write(html_content)
+
+def create_travel_record():
+    html_content = create_html_file()
+    
+    while True:
+        date = input("날짜를 입력하세요 (YYYY-MM-DD 형식, 종료하려면 'q' 입력): ")
+        if date == 'q':
+            break
+        
+        location = input("장소를 입력하세요: ")
+        food = input("먹은 음식을 입력하세요: ")
+        
+        html_content = add_record_to_html(html_content, date, location, food)
+
+    filename = input("저장할 HTML 파일명을 입력하세요: ")
+    save_html(html_content, filename)
+    print("여행 기록이 저장되었습니다.")
+
+create_travel_record()
